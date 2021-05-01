@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react'
 import '../Login/Login.scss'
 import { API } from "../../helpers"
 import { useForm } from "react-hook-form"
+import { useHistory } from 'react-router-dom'
 
 const Registro = () => {
     const [errorMsg, seterrorMsg] = useState('')
     const [uploadedImage, setUploadedImage] = useState('')
     const { register, handleSubmit, setValue,formState:{ errors } } = useForm()
+    const history = useHistory()
 
     useEffect(() =>{
+        register("tipo",{ required: { value: true, message: 'El tipo es requerido' }})
         register("nombre",{ required: {value: true, message: 'El nombre es requerido'},
             pattern: {value: /^[a-záéíúóñA-ZÁÉÍÓÚÑ '.-]*$/, message: 'Formato de nombre inválido'}})
         register("descripcion",{ required: {value: true, message: 'La descripción es requerida'}})
@@ -24,7 +27,7 @@ const Registro = () => {
     },[register, uploadedImage])
 
     const _onSubmit = async data => {
-        // console.log(data);
+        console.log(data);
         const params ={
             correo: data.correo,
             descripcion: data.descripcion,
@@ -32,14 +35,15 @@ const Registro = () => {
             logo: data.logo[0].name,
             nombre: data.nombre,
             password: data.password,
-            telefono: parseInt(data.telefono)
+            telefono: parseInt(data.telefono),
+            tipo: parseInt(data.tipo)
         }
         let res = await API.getBody("emp/insert", "POST", params)
         if(res.hasOwnProperty("status")){
             seterrorMsg(res.msg)
         }else{
             await API.getFile(data.logo[0])
-            this.props.history.push("/login")
+            history.push("/login")
         }
     }
 
@@ -68,6 +72,17 @@ const Registro = () => {
 					        </span>
                             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                             </div>
+                            <div className="wrap-input100 validate-input">
+                                <select name="tipo" className="input100 has-val" style={{border: '1px white solid'}}
+                                onChange={e =>{ setValue("tipo", e.target.value) }}>
+                                    <option value="" selected>Selecciona servicio</option>
+                                    <option value="1">Gas</option>
+                                    <option value="2">Agua Purificada</option>
+                                </select>
+                                <span className="focus-input100"></span>
+                                <span className="label-input100">Tipo de Servicio</span>
+                            </div>
+                            {errors.tipo && <small style={{color: 'red'}}>{errors.tipo?.message}</small>}
                             <div className="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
                                 <input className="input100" type="text" name="nombre"
                                     onChange={e =>{ _onChangeInput(e); setValue("nombre", e.target.value) }}

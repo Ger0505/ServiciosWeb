@@ -40,12 +40,14 @@ const User = React.lazy(() => import('./views/users/User'));
 
 const Negocio = React.lazy(() => import('./components/Negocio'));
 const Pedidos = React.lazy(() => import('./components/Pedidos'));
+const Repartidor = React.lazy(() => import('./components/Repartidor'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/negocio', name: 'Negocio', component: Negocio },
   { path: '/pedidos', name: 'Pedidos', component: Pedidos },
+  { path: '/repartidor', name: 'Repartidor', component: Repartidor },
   { path: '/theme', name: 'Theme', component: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', component: Colors },
   { path: '/theme/typography', name: 'Typography', component: Typography },

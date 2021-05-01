@@ -18,25 +18,25 @@ const Negocio = () => {
   const history = useHistory()
 
   useEffect(() => {
-    _getEmpresa()
-  }, [])
 
-  const _getEmpresa = async () => {
-    let s = Session.getSession()
-    if (!s) history.push("/login")
-    let res = await API.getData("emp/" + s._id, "GET")
-    res.telefono = res.telefono + ""
-    setEmp({
-        _id: s._id,
-        nombre: res.nombre,
-        descripcion: res.descripcion,
-        correo: res.correo,
-        direccion: res.direccion,
-        telefono: res.telefono
-    })
-    reset(res)
-    setLogoSrc(res.logo)
-  }
+    const getEmpresa = async () => {
+      let s = Session.getSession()
+      if (!s) history.push("/login")
+      let res = await API.getData("emp/" + s._id, "GET")
+      res.telefono = res.telefono + ""
+      setEmp({
+          _id: s._id,
+          nombre: res.nombre,
+          descripcion: res.descripcion,
+          correo: res.correo,
+          direccion: res.direccion,
+          telefono: res.telefono
+      })
+      reset(res)
+      setLogoSrc(res.logo)
+    }
+    getEmpresa()
+  }, [history, reset])
 
   const _actualizar = async data => {
     data.telefono = parseInt(data.telefono)
