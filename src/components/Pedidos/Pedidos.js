@@ -5,6 +5,11 @@ import {
   CCardBody,
   CCollapse,
   CDataTable,
+  CDropdown,
+  CDropdownItem,
+  CDropdownDivider,
+  CDropdownMenu,
+  CDropdownToggle,
 } from "@coreui/react";
 import { API, Session } from "../../helpers";
 
@@ -218,6 +223,14 @@ const Pedidos = () => {
     },
   ];
 
+  const repartidores = [
+    { id: 0, nombre: "Felipe", apellido: "Cruz Humberto" },
+    { id: 1, nombre: "Francisco", apellido: "Hernández Carrasco" },
+    { id: 2, nombre: "Karla", apellido: "Velazco Avendaño" },
+    { id: 3, nombre: "Rodrigo", apellido: "Alejandro Muñoz" },
+    { id: 4, nombre: "Karak", apellido: "Fitzjerland Kato" },
+  ];
+
   const [details, setDetails] = useState([]);
   const [arrayJSON, setArrayJSON] = useState([]);
   useEffect(() => {
@@ -255,11 +268,10 @@ const Pedidos = () => {
   };
   // getPedidos();
   const fields = [
-    { key: "usuario._id", label: "id usuario", _style: { width: "10%" } },
+    { key: "usuario", label: "Usuario", _style: { width: "10%" } },
     { key: "fecha", label: "Fecha", _style: { width: "10%" } },
     { key: "hora", label: "Hora", _style: { width: "10%" } },
     { key: "tipo", _style: { width: "20%" } },
-    { key: "_id", label: "id", _style: { width: "40%" } },
     "status",
     {
       key: "show_details",
@@ -298,6 +310,9 @@ const Pedidos = () => {
       sorter
       pagination
       scopedSlots={{
+        usuario: (item) => (
+          <td>{`${item.usuario.nombre} ${item.usuario.apellidos}`}</td>
+        ),
         status: (item) => (
           <td>
             <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
@@ -325,7 +340,34 @@ const Pedidos = () => {
             <CCollapse show={details.includes(index)}>
               <CCardBody>
                 <h4>{`${item.usuario.nombre} ${item.usuario.apellidos}`}</h4>
-                <p className="text-muted">User since: {item.registrado}</p>
+                <p className="text-muted">ID pedido: {item._id}</p>
+                <p className="text-muted">Cantidad: {item.cantidad}</p>
+                <p className="text-muted">Precio: {item.precio}</p>
+                <p className="text-muted">User since: {item.descripcion}</p>
+                <p className="text-muted">
+                  Dirección: {item.usuario.direccion}
+                </p>
+                <CDropdown>
+                  <CDropdownToggle color="success">Repartidor</CDropdownToggle>
+                  <CDropdownMenu>
+                    {repartidores.map((item) => {
+                      return (
+                        <CDropdownItem component="button">{`${item.nombre} ${item.apellido}`}</CDropdownItem>
+                      );
+                    })}
+                    {/* <CDropdownItem component="button">Action</CDropdownItem>
+                    <CDropdownItem component="button">
+                      Another action
+                    </CDropdownItem>
+                    <CDropdownItem component="button">
+                      Something else here
+                    </CDropdownItem>
+                    <CDropdownDivider />
+                    <CDropdownItem component="button">
+                      Separated link
+                    </CDropdownItem> */}
+                  </CDropdownMenu>
+                </CDropdown>
                 <CButton size="sm" color="info">
                   User Settings
                 </CButton>
