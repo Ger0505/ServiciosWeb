@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CDropdown,
   CDropdownItem,
@@ -10,8 +10,21 @@ import CIcon from '@coreui/icons-react'
 import { Session } from "../../helpers"
 import { useHistory } from 'react-router-dom'
 
+const URL_IMAGE = "http://localhost:3002/uploads/"
+
 const TheHeaderDropdown = () => {
   const history = useHistory()
+  const [imageProfile, setImageProfile] = useState('')
+  const [altImage, setAltImage] = useState('');
+
+  useEffect(() =>{
+    const getSession = async () =>{
+      let _s = await Session.getSession()
+      setImageProfile(URL_IMAGE + _s.logo)
+      setAltImage(_s.nombre)
+    }
+    getSession()
+  },[history])
 
   const _cerrarSesion = () =>{
     Session.removeSession()
@@ -27,9 +40,9 @@ const TheHeaderDropdown = () => {
       <CDropdownToggle className="c-header-nav-link" caret={false}>
         <div className="c-avatar">
           <CImg
-            src={'avatars/6.jpg'}
+            src={imageProfile}
             className="c-avatar-img"
-            alt="admin@bootstrapmaster.com"
+            alt={altImage}
           />
         </div>
       </CDropdownToggle>

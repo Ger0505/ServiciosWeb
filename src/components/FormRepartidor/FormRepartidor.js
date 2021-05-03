@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { CCard, CCardHeader, CFade, CButton, CCollapse, CCardBody, CForm, CLabel, CInputGroup, 
 CInputGroupPrepend, CInput, CInputGroupText, CFormGroup, CFormText } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 import { useForm, Controller } from "react-hook-form"
 import { API, Session } from "../../helpers"
 import { useHistory } from "react-router-dom"
@@ -40,10 +39,12 @@ const FormRepartidor = ({onRefresh, onReset, updated}) => {
         }
         if(res.hasOwnProperty("status")) console.log(res.msg)
         else{
-          if(!updated)
-            reset({
-                nombre: '', apellidos: '', telefono: '', direccion: '', correo: ''
-            })
+          if(!updated){
+              reset({
+                  nombre: '', apellidos: '', telefono: '', direccion: '', correo: ''
+              })
+              alert("Repartidor insertado correctamente")
+          }else alert("Repartidor actualizado")
           onRefresh()
           onReset()
         }
@@ -52,7 +53,7 @@ const FormRepartidor = ({onRefresh, onReset, updated}) => {
     return (
         <CFade timeout={300} in={showElements} unmountOnExit={true}>
             <CCard style={{marginTop: 10}}>
-                <CCardHeader>
+                <CCardHeader color={updated ? "info": "success"} textColor="white">
                     <strong>{updated  ? 'Actualizando ' + updated._id: 'Agregar Repartidor'}</strong>
                     <div className="card-header-actions">
                         <CButton
@@ -60,14 +61,14 @@ const FormRepartidor = ({onRefresh, onReset, updated}) => {
                             className="card-header-action btn-minimize"
                             onClick={() => setCollapsed(!collapsed)}
                         >
-                            <i class={collapsed ? "fas fa-arrow-up" : "fas fa-arrow-down"}></i>
+                            <i style={{color: "#fff"}} class={collapsed ? "fas fa-arrow-up" : "fas fa-arrow-down"}></i>
                         </CButton>
                         <CButton
                             color="link"
                             className="card-header-action btn-close"
                             onClick={() => {if(updated) onReset();setShowElements(false)}}
                         >
-                            <CIcon name="cil-x" />
+                            <i style={{color: "#fff"}} class="fas fa-times"></i>
                         </CButton>
                     </div>
                 </CCardHeader>
