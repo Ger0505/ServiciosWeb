@@ -1,278 +1,63 @@
-import React, { useState, useEffect } from "react";
-import {
-  CBadge,
-  CButton,
-  CCardBody,
-  CCollapse,
-  CDataTable,
-  CDropdown,
-  CDropdownItem,
-  CDropdownDivider,
-  CDropdownMenu,
-  CDropdownToggle,
-} from "@coreui/react";
-import { API, Session } from "../../helpers";
+import React, { useState, useEffect } from "react"
+import { CBadge, CButton, CCollapse, CDataTable } from "@coreui/react"
+import { API, Session } from "../../helpers"
+import Detalle from "../Detalle"
 
-// let pedidos = null;
-// const getPedidos = () => {
-//   pedidos = API.getData("ped/emp/608901d29429db11d461035c", "GET").then(
-//     (data) => data
-//   );
-// };
 const Pedidos = () => {
-  const usersData = [
-    {
-      id: 0,
-      registrado: "2018/01/01",
-      hora: "12:00 p.m.",
-      tipo: "Guest",
-      usuario: "John Doe",
-      status: "Pending",
-    },
-    {
-      id: 1,
-      registrado: "2018/01/01",
-      hora: "12:00 p.m.",
-      tipo: "Member",
-      usuario: "Samppa Nori",
-      status: "Active",
-    },
-    {
-      id: 2,
-      registrado: "2018/02/01",
-      hora: "12:00 p.m.",
-      tipo: "Staff",
-      usuario: "Estavan Lykos",
-      status: "Banned",
-    },
-    {
-      id: 3,
-      registrado: "2018/02/01",
-      hora: "12:00 p.m.",
-      tipo: "Admin",
-      usuario: "Chetan Mohamed",
-      status: "Inactive",
-    },
-    {
-      id: 4,
-      registrado: "2018/03/01",
-      hora: "12:00 p.m.",
-      tipo: "Member",
-      usuario: "Derick Maximinus",
-      status: "Pending",
-    },
-    {
-      id: 5,
-      registrado: "2018/01/21",
-      hora: "12:00 p.m.",
-      tipo: "Staff",
-      usuario: "Friderik Dávid",
-      status: "Active",
-    },
-    {
-      id: 6,
-      registrado: "2018/01/01",
-      hora: "12:00 p.m.",
-      tipo: "Member",
-      usuario: "Yiorgos Avraamu",
-      status: "Active",
-    },
-    {
-      id: 7,
-      registrado: "2018/02/01",
-      hora: "12:00 p.m.",
-      tipo: "Staff",
-      usuario: "Avram Tarasios",
-      status: "Banned",
-    },
-    {
-      id: 8,
-      registrado: "2018/02/01",
-      hora: "12:00 p.m.",
-      tipo: "Admin",
-      usuario: "Quintin Ed",
-      status: "Inactive",
-    },
-    {
-      id: 9,
-      registrado: "2018/03/01",
-      hora: "12:00 p.m.",
-      tipo: "Member",
-      usuario: "Enéas Kwadwo",
-      status: "Pending",
-    },
-    {
-      id: 10,
-      registrado: "2018/01/21",
-      hora: "12:00 p.m.",
-      tipo: "Staff",
-      usuario: "Agapetus Tadeáš",
-      status: "Active",
-    },
-    {
-      id: 11,
-      registrado: "2018/01/01",
-      hora: "12:00 p.m.",
-      tipo: "Member",
-      usuario: "Carwyn Fachtna",
-      status: "Active",
-    },
-    {
-      id: 12,
-      registrado: "2018/02/01",
-      hora: "12:00 p.m.",
-      tipo: "Staff",
-      usuario: "Nehemiah Tatius",
-      status: "Banned",
-    },
-    {
-      id: 13,
-      registrado: "2018/02/01",
-      hora: "12:00 p.m.",
-      tipo: "Admin",
-      usuario: "Ebbe Gemariah",
-      status: "Inactive",
-    },
-    {
-      id: 14,
-      registrado: "2018/03/01",
-      hora: "12:00 p.m.",
-      tipo: "Member",
-      usuario: "Eustorgios Amulius",
-      status: "Pending",
-    },
-    {
-      id: 15,
-      registrado: "2018/01/21",
-      hora: "12:00 p.m.",
-      tipo: "Staff",
-      usuario: "Leopold Gáspár",
-      status: "Active",
-    },
-    {
-      id: 16,
-      registrado: "2018/01/01",
-      hora: "12:00 p.m.",
-      tipo: "Member",
-      usuario: "Pompeius René",
-      status: "Active",
-    },
-    {
-      id: 17,
-      registrado: "2018/02/01",
-      hora: "12:00 p.m.",
-      tipo: "Staff",
-      usuario: "Paĉjo Jadon",
-      status: "Banned",
-    },
-    {
-      id: 18,
-      registrado: "2018/02/01",
-      hora: "12:00 p.m.",
-      tipo: "Admin",
-      usuario: "Micheal Mercurius",
-      status: "Inactive",
-    },
-    {
-      id: 19,
-      registrado: "2018/03/01",
-      hora: "12:00 p.m.",
-      tipo: "Member",
-      usuario: "Ganesha Dubhghall",
-      status: "Pending",
-    },
-    {
-      id: 20,
-      registrado: "2018/01/21",
-      hora: "12:00 p.m.",
-      tipo: "Staff",
-      usuario: "Hiroto Šimun",
-      status: "Active",
-    },
-    {
-      id: 21,
-      registrado: "2018/01/01",
-      hora: "12:00 p.m.",
-      tipo: "Member",
-      usuario: "Vishnu Serghei",
-      status: "Active",
-    },
-    {
-      id: 22,
-      registrado: "2018/02/01",
-      hora: "12:00 p.m.",
-      tipo: "Staff",
-      usuario: "Zbyněk Phoibos",
-      status: "Banned",
-    },
-    {
-      id: 23,
-      registrado: "2018/01/01",
-      hora: "12:00 p.m.",
-      tipo: "Member",
-      usuario: "Aulus Agmundr",
-      status: "Pending",
-    },
-    {
-      id: 42,
-      registrado: "2001/05/25",
-      hora: "12:00 p.m.",
-      tipo: "Alien",
-      usuario: "Ford Prefect",
-      status: "Don't panic!",
-    },
-  ];
+  const [details, setDetails] = useState([])
+  const [arrayJSON, setArrayJSON] = useState([])
+  const [arrayRep, setArrayRep] = useState([])
 
-  const repartidores = [
-    { id: 0, nombre: "Felipe", apellido: "Cruz Humberto" },
-    { id: 1, nombre: "Francisco", apellido: "Hernández Carrasco" },
-    { id: 2, nombre: "Karla", apellido: "Velazco Avendaño" },
-    { id: 3, nombre: "Rodrigo", apellido: "Alejandro Muñoz" },
-    { id: 4, nombre: "Karak", apellido: "Fitzjerland Kato" },
-  ];
-
-  const [details, setDetails] = useState([]);
-  const [arrayJSON, setArrayJSON] = useState([]);
   useEffect(() => {
-    const function1 = async () => {
-      const pedidos = await API.getData(
-        "ped/emp/608901d29429db11d461035c",
-        "GET"
-      );
-      setArrayJSON(pedidos);
-    };
-    function1();
-  }, []);
-
-  // useEffect(() =>{
-  //   const getPedidos = async () =>{
-  //     let _id = Session.getSession()._id
-  //     if(session){
-  //       let res = API.getData("ped/" + _id, "GET")
-
-  //     }
-  //   }
-
-  //   getPedidos()
-  // },[])
+    const getData = async () => {
+      let s = Session.getSession()
+      const pedidos = await API.getData( "ped/emp/" + s._id, "GET" )
+      setArrayJSON(pedidos)
+      const reps = await API.getData( "rep/" + s._id, "GET")
+      setArrayRep(reps)
+    }
+    getData()
+  }, [])
 
   const toggleDetails = (index) => {
-    const position = details.indexOf(index);
-    let newDetails = details.slice();
+    const position = details.indexOf(index)
+    let newDetails = details.slice()
     if (position !== -1) {
-      newDetails.splice(position, 1);
+      newDetails.splice(position, 1)
     } else {
-      newDetails = [...details, index];
+      newDetails = [...details, index]
     }
-    setDetails(newDetails);
-  };
-  // getPedidos();
+    setDetails(newDetails)
+  }
+
+  const _changeRepartidor = async (idPed, idRep) =>{
+    let params = {idPed: idPed, idRep: idRep}
+    let res = await API.getBody("ped/insert/rep", "POST", params)
+    if(res.hasOwnProperty("status")) console.log(res.status)
+    else _reset()
+  }
+
+  const _reset = async () =>{
+    let s = Session.getSession()
+    const pedidos = await API.getData( "ped/emp/" + s._id, "GET" )
+    setArrayJSON(pedidos)
+  }
+
+  const _searchRepartidor = id =>{
+    if(!id) return "No definido"
+    let usuario = "No definido"
+    arrayRep.map(req =>{
+      if(req._id === id) usuario = req.usuario.nombre + " " + req.usuario.apellidos
+    })
+    return usuario
+  }
+
   const fields = [
-    { key: "usuario", label: "Usuario", _style: { width: "10%" } },
+    { key: "_id", label: "ID", _style: { width: "20%" } },
+    { key: "usuario", label: "Usuario", _style: { width: "20%" } },
     { key: "fecha", label: "Fecha", _style: { width: "10%" } },
     { key: "hora", label: "Hora", _style: { width: "10%" } },
-    { key: "tipo", _style: { width: "20%" } },
-    "status",
+    { key: "tipo", _style: { width: "10%" } },
     {
       key: "show_details",
       label: "",
@@ -280,22 +65,22 @@ const Pedidos = () => {
       sorter: false,
       filter: false,
     },
-  ];
+  ]
 
   const getBadge = (status) => {
     switch (status) {
       case "Active":
-        return "success";
+        return "success"
       case "Inactive":
-        return "secondary";
+        return "secondary"
       case "Pending":
-        return "warning";
+        return "warning"
       case "Banned":
-        return "danger";
+        return "danger"
       default:
-        return "primary";
+        return "primary"
     }
-  };
+  }
 
   return (
     <CDataTable
@@ -327,45 +112,39 @@ const Pedidos = () => {
                 shape="square"
                 size="sm"
                 onClick={() => {
-                  toggleDetails(index);
+                  toggleDetails(index)
                 }}
               >
                 {details.includes(index) ? "Ocultar" : "Mostrar"}
               </CButton>
             </td>
-          );
+          )
         },
         details: (item, index) => {
           return (
             <CCollapse show={details.includes(index)}>
-              <CCardBody>
-                <h4>{`${item.usuario.nombre} ${item.usuario.apellidos}`}</h4>
-                <p className="text-muted">ID pedido: {item._id}</p>
-                <p className="text-muted">Cantidad: {item.cantidad}</p>
-                <p className="text-muted">Precio: {item.precio}</p>
-                <p className="text-muted">User since: {item.descripcion}</p>
-                <p className="text-muted">
-                  Dirección: {item.usuario.direccion}
-                </p>
+              <Detalle 
+                item={item}
+                arrayRep={arrayRep}
+                onChange={(idPed, idRep) => _changeRepartidor(idPed, idRep)}
+                onSearch={(id) => _searchRepartidor(id)}
+                reset = {() => _reset()}/>
+              {/* <CCardBody>
+                <h4>ID. {item._id}</h4>
+                <p className=""><strong>Usuario:</strong> {item.usuario.nombre + " " + item.usuario.apellidos}</p>
+                <p className=""><strong>Cantidad:</strong> {item.cantidad}</p>
+                <p className=""><strong>Precio: </strong>{item.precio}</p>
+                <p className=""><strong>Descripción:</strong> {item.descripcion}</p>
+                <p className=""> <strong>Dirección:</strong> {item.usuario.direccion}</p>
+                <p className=""> <strong>Repartidor:</strong> {_searchRepartidor(item.repartidor?._id)} </p>
                 <CDropdown>
-                  <CDropdownToggle color="success">Repartidor</CDropdownToggle>
+                  <CDropdownToggle color="primary">Cambiar Repartidor</CDropdownToggle>
                   <CDropdownMenu>
-                    {repartidores.map((item) => {
+                    {arrayRep.map((rep) => {
                       return (
-                        <CDropdownItem component="button">{`${item.nombre} ${item.apellido}`}</CDropdownItem>
-                      );
+                        <CDropdownItem onClick={() => _changeRepartidor(item._id,rep._id)} component="button">{`${rep.usuario.nombre} ${rep.usuario.apellidos}`}</CDropdownItem>
+                      )
                     })}
-                    {/* <CDropdownItem component="button">Action</CDropdownItem>
-                    <CDropdownItem component="button">
-                      Another action
-                    </CDropdownItem>
-                    <CDropdownItem component="button">
-                      Something else here
-                    </CDropdownItem>
-                    <CDropdownDivider />
-                    <CDropdownItem component="button">
-                      Separated link
-                    </CDropdownItem> */}
                   </CDropdownMenu>
                 </CDropdown>
                 <CButton size="sm" color="info">
@@ -374,13 +153,13 @@ const Pedidos = () => {
                 <CButton size="sm" color="danger" className="ml-1">
                   Delete
                 </CButton>
-              </CCardBody>
+              </CCardBody> */}
             </CCollapse>
-          );
+          )
         },
       }}
     />
-  );
-};
+  )
+}
 
-export default Pedidos;
+export default Pedidos

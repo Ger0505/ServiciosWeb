@@ -165,14 +165,14 @@ const Negocio = () => {
                   />
                   { errors.telefono && <CFormText className="help-block">{errors.telefono?.message}</CFormText>}
                 </CFormGroup>
-                <CFormGroup >
+                {/* <CFormGroup >
                   <CLabel htmlFor="dias">Días</CLabel>
                   <CInput type="text" id="dias" name="dias" placeholder="Día a Día" />
                 </CFormGroup>
                 <CFormGroup >
                   <CLabel htmlFor="horario">Horario de entrada y salida</CLabel>
                   <CInput type="text" id="horario" name="horario" placeholder="hh:mm a hh:mm" />
-                </CFormGroup>
+                </CFormGroup> */}
               </CCardBody>
               <CCardFooter>
                 <CButton type="submit" size="sm" color="primary"><CIcon name="cil-scrubber" /> Actualizar</CButton>
