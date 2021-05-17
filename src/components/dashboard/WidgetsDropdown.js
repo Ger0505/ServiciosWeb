@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CWidgetDropdown,
   CRow,
@@ -9,13 +9,23 @@ import {
   CDropdownToggle
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import ChartLineSimple from './charts/ChartLineSimple'
-import ChartBarSimple from './charts/ChartBarSimple'
+import ChartLineSimple from '../charts/ChartLineSimple'
+import ChartBarSimple from '../charts/ChartBarSimple'
+import { API, Session } from "../../helpers";
 
-const WidgetsDropdown = ({idEmp}) => {
+const WidgetsDropdown = () => {
+  const [data, setData] = useState({});
 
   useEffect(() =>{
-
+    const getData = async () =>{
+      let s = Session.getSession()
+      if(!s) return 
+      let res = await API.getData("ped/gb/t/" + s._id)
+      if(!res) return
+      setData(res)
+      console.log(res);
+    }
+    getData()
   },[])
 
   // render
@@ -24,7 +34,7 @@ const WidgetsDropdown = ({idEmp}) => {
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-primary"
-          header="9.823"
+          header={data.pedidos}
           text="Pedidos Totales"
           footerSlot={
             <ChartLineSimple
@@ -44,8 +54,8 @@ const WidgetsDropdown = ({idEmp}) => {
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-info"
-          header="9.823"
-          text="Número de repartidores"
+          header={"$" + data.ventas}
+          text="Ventas Totales"
           footerSlot={
             <ChartLineSimple
               pointed
@@ -65,8 +75,8 @@ const WidgetsDropdown = ({idEmp}) => {
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-warning"
-          header="9.823"
-          text="No. de repartidores"
+          header= {data.repartidores}
+          text="No. de Repartidores"
           footerSlot={
             <ChartLineSimple
               className="mt-3"
@@ -97,8 +107,8 @@ const WidgetsDropdown = ({idEmp}) => {
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-danger"
-          header="9.823"
-          text="Members online"
+          header={data.nulos}
+          text="Pedidos sin repartidor"
           footerSlot={
             <ChartBarSimple
               className="mt-3 mx-3"
@@ -108,19 +118,7 @@ const WidgetsDropdown = ({idEmp}) => {
               labels="months"
             />
           }
-        >
-          <CDropdown>
-            <CDropdownToggle caret className="text-white" color="transparent">
-              <CIcon name="cil-settings"/>
-            </CDropdownToggle>
-            <CDropdownMenu className="pt-0" placement="bottom-end">
-              <CDropdownItem>Action</CDropdownItem>
-              <CDropdownItem>Another action</CDropdownItem>
-              <CDropdownItem>Something else here...</CDropdownItem>
-              <CDropdownItem disabled>Disabled action</CDropdownItem>
-            </CDropdownMenu>
-          </CDropdown>
-        </CWidgetDropdown>
+        />
       </CCol>
     </CRow>
   )

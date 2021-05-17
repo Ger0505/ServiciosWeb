@@ -46,7 +46,7 @@ const Pedidos = () => {
   const _searchRepartidor = id =>{
     if(!id) return "No definido"
     let usuario = "No definido"
-    arrayRep.map(req =>{
+    arrayRep.forEach(req =>{
       if(req._id === id) usuario = req.usuario.nombre + " " + req.usuario.apellidos
     })
     return usuario

@@ -1,11 +1,24 @@
 import { CCardBody, CDropdown, CDropdownItem, CDropdownMenu, CDropdownToggle, CForm, CButton, CInput, CFormText, CCol, CRow } from '@coreui/react';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { API } from "../../helpers"
 
 const Detalle = ({ item, arrayRep, onSearch, onChange, reset }) => {
   const [msgError, setMsgError] = useState('')
   const [cantidad, setCantidad] = useState(item.cantidad)
   const [precio, setPrecio] = useState(item.precio)
+  const [costoDefault, setCostoDefault] = useState(0);
+  useEffect(()=>{
+    if(item.tipo === 'Garrafón') setCostoDefault(10)
+    else if(item.tipo === 'Estacionario') setCostoDefault(10)
+    else if(item.tipo === 'Tanque'){
+      if(item.descripcion === '10 Litros') setCostoDefault(10)
+      else if(item.descripcion === '20 Litros') setCostoDefault(20)
+      else if(item.descripcion === '30 Litros') setCostoDefault(30)
+      else if(item.descripcion === '40 Litros') setCostoDefault(40)
+      else if(item.descripcion === '50 Litros') setCostoDefault(50)
+    }
+    
+  },[item])
 
   const _onSubmit = async e => {
     e.preventDefault()
@@ -13,18 +26,27 @@ const Detalle = ({ item, arrayRep, onSearch, onChange, reset }) => {
     try {
       c = parseFloat(cantidad)
       p = parseFloat(precio)
-      console.log(c+ " " + p);
+      console.log(c + " " + p);
     } catch (e) {
       setMsgError('Formato de cantidad y/o precio inválida')
     }
-    if(c > 0 && p > 0){
+    if (c > 0 && p > 0) {
       let res = await API.getBody("ped/update", "PUT", { _id: item._id, cantidad: c, precio: p })
       if (res.hasOwnProperty("status")) console.log(res.msg)
       setMsgError("")
-    }else{
+    } else {
       setMsgError("Número mayor a 0 en cantidad y/o precio")
     }
     reset()
+  }
+
+  const _handlePrecio = e =>{
+    try {
+      if(e.target.value === '') setPrecio(0)
+      else setPrecio(parseInt(e.target.value)* costoDefault)
+    } catch (err) {
+      setPrecio(0)
+    }
   }
 
   return (
@@ -37,16 +59,20 @@ const Detalle = ({ item, arrayRep, onSearch, onChange, reset }) => {
         <p className=""><strong>Descripción:</strong> {item.descripcion}</p>
         <CRow>
           <CCol xs="6">
-          <p className=""><strong>Cantidad:</strong></p>
-        <CInput id="cantidad" name="cantidad" type="text" required value={cantidad} onChange={e => { setMsgError(''); setCantidad(e.target.value) }} />
+            <p className=""><strong>Cantidad:</strong></p>
+            <CInput id="cantidad" name="cantidad" type="text" required 
+              value={cantidad}
+              onChange={e => { setMsgError(''); setCantidad(e.target.value);  _handlePrecio(e)}} />
           </CCol>
           <CCol xs="6">
-          <p className=""><strong>Precio: </strong></p>
-        <CInput id="precio" name="cantidad" type="text" required value={precio} onChange={e => { setMsgError(''); setPrecio(e.target.value) }} />
+            <p className=""><strong>Precio: </strong></p>
+            <CInput id="precio" name="cantidad" type="text" required 
+              value={precio}
+              onChange={e => { setMsgError(''); setPrecio(e.target.value) }} />
           </CCol>
         </CRow>
-       <br />
-        {msgError !== '' && <CFormText style={{marginTop: '-1rem'}} className="help-block" color="danger">{msgError}</CFormText>}
+        <br />
+        {msgError !== '' && <CFormText style={{ marginTop: '-1rem' }} className="help-block" color="danger">{msgError}</CFormText>}
         <CDropdown>
           <CDropdownToggle color="primary">Cambiar Repartidor</CDropdownToggle>
           <CDropdownMenu>
