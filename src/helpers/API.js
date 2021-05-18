@@ -1,5 +1,5 @@
-const URL = "http://localhost:3001/";
-const URLFile = "http://localhost:3002/upload";
+const URL = "https://servicios-api.herokuapp.com/";
+const URLFile = "https://servicios-file.herokuapp.com/upload";
 
 class API {
   async getBody(url, method, body) {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CFormGroup, CForm, CLabel, CInputFile, CButton, CFormText} from "@coreui/react";
 import CIcon from '@coreui/icons-react'
-import { API } from "../../helpers"
+import { API, FileURL } from "../../helpers"
 import { useForm, Controller } from "react-hook-form"
 
 const FileUpload = ({actualLogo, cb}) => {
@@ -54,7 +54,7 @@ const FileUpload = ({actualLogo, cb}) => {
             </CFormGroup>
           </CForm>
             <div style={{marginBottom: 10, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <img style={{width:'50%'}} src={"http://localhost:3002/uploads/" + imageSrc} alt="logoImage"/>
+                <img style={{width:'50%'}} src={FileURL + imageSrc} alt="logoImage"/>
             </div>
         </CCardBody>
       </CCard>
