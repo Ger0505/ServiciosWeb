@@ -1,10 +1,6 @@
-import API from './API'
-import Session from './Session'
+import API from "./API";
+import Session from "./Session";
 
-const FileURL = "https://servicios-file.herokuapp.com/uploads/"
+const FileURL = "https://servicios-file.herokuapp.com/uploads/";
 
-export{
-    API,
-    Session,
-    FileURL
-}
+export { API, Session, FileURL };
