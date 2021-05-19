@@ -23,7 +23,6 @@ const WidgetsDropdown = () => {
       let res = await API.getData("ped/gb/t/" + s._id)
       if(!res) return
       setData(res)
-      console.log(res);
     }
     getData()
   },[])

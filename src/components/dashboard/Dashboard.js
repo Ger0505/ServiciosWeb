@@ -7,6 +7,7 @@ import { API, Session } from "../../helpers";
 const Dashboard = () => {
   const [data, setData] = useState([]);
   const [ventas, setVentas] = useState([]);
+  const [reps, setReps] = useState([]);
 
   useEffect(() =>{
     const getData = async () =>{
@@ -16,14 +17,30 @@ const Dashboard = () => {
       if(res) setData(res)
       res = await API.getData("ped/gb/v/" + s._id, "GET")
       if(res) setVentas(res)
+      res = await API.getData("rep/" + s._id, "GET")
+      if(res) setReps(res)
     }
     getData()
   },[])
 
-  const _getAttribute = (atr,dataset) =>{
+  const _getAttribute = (atr,dataset,num) =>{
     let array = []
-    dataset.forEach(item => array.push(item[atr]))
+    if(atr === "_id" && num === 1 ){
+      dataset.forEach(item => {
+        array.push(_getNombreRep(item[atr]))
+      })
+    }else{
+      dataset.forEach(item => array.push(item[atr]))
+    }
     return array
+  }
+
+  const _getNombreRep = id =>{
+    let name = 'null'
+    reps.forEach(item =>{
+      if(id === item._id){ name = item.usuario.nombre + " " + item.usuario.apellidos }
+    })
+    return name
   }
 
   return (
@@ -41,13 +58,20 @@ const Dashboard = () => {
               {
                 label: 'No. de pedidos',
                 backgroundColor: '#f87979',
-                data: _getAttribute("pedidos", data)
+                data: _getAttribute("pedidos", data,0)
               }
             ]}
-            labels={_getAttribute("_id",data)}
+            labels={_getAttribute("_id",data,1)}
             options={{
               tooltips: {
                 enabled: true
+              },
+              scales:{
+                yAxes:[{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
               }
             }}
           />
@@ -67,7 +91,7 @@ const Dashboard = () => {
               {
                 label: 'Ventas',
                 borderColor: 'rgb(0,216,255,0.9)',
-                data: _getAttribute("ventas",ventas),
+                data: _getAttribute("ventas",ventas,0),
                 fill: false
               }
             ]}
@@ -76,7 +100,7 @@ const Dashboard = () => {
                 enabled: true
               }
             }}
-            labels={_getAttribute("_id",ventas)}
+            labels={_getAttribute("_id",ventas,0)}
           />
         </CCardBody>
       </CCard>
