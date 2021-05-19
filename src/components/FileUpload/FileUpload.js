@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../pages/Login/Login.scss";
 import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import { API, FileURL } from "../../helpers";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 
 const FileUpload = ({ actualLogo, cb }) => {
   const [imageSrc, setImageSrc] = useState("");
