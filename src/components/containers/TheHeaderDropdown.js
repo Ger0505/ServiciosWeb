@@ -9,7 +9,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { Session } from "../../helpers"
 import { useHistory } from 'react-router-dom'
-import { FileURL } from '../../helpers'
+import { FileURL, API } from '../../helpers'
 
 const TheHeaderDropdown = () => {
   const history = useHistory()
@@ -19,7 +19,8 @@ const TheHeaderDropdown = () => {
   useEffect(() =>{
     const getSession = async () =>{
       let _s = await Session.getSession()
-      setImageProfile(FileURL + _s.logo)
+      let res = await API.getData("emp/logo/" + _s._id)
+      setImageProfile(FileURL + res.logo)
       setAltImage(_s.nombre)
     }
     getSession()

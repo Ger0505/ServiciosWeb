@@ -1,64 +1,50 @@
 import React, { useState, useEffect } from 'react'
-import { CCard, CCardBody, CCardHeader, CCol, CFormGroup, CForm, CLabel, CInputFile, CButton, CFormText} from "@coreui/react";
-import CIcon from '@coreui/icons-react'
+import '../../pages/Login/Login.scss'
+import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import { API, FileURL } from "../../helpers"
 import { useForm, Controller } from "react-hook-form"
 
-const FileUpload = ({actualLogo, cb}) => {
-    const [imageSrc, setImageSrc] = useState('')
-    const { control, handleSubmit, formState: { errors } } = useForm()
+const FileUpload = ({ actualLogo, cb }) => {
+  const [imageSrc, setImageSrc] = useState('')
+  const { register, handleSubmit, setValue,formState:{ errors } } = useForm()
 
-    useEffect(() =>{
-        setImageSrc(actualLogo)
-    },[actualLogo])
+  useEffect(() => {
+    setImageSrc(actualLogo)
+    register("logo",{ required: { value: true, message: 'El logo es requerido' }})
+  }, [actualLogo, register])
 
-    const _onSubmit = async data => {
-        await API.getFile(data.logo[0])
-        cb(data.logo[0].name)
-    }
+  const _onSubmit = async data => {
+    console.log(data);
+    await API.getFile(data.logo[0])
+    cb(data.logo[0].name)
+  }
 
-    // const _onChangeImagePreview =  e =>{
-    //     if (!e.target.files || e.target.files.length === 0) {
-    //         setImageSrc('')
-    //         return
-    //     }
-    //     const objectUrl = URL.createObjectURL(e.target.files[0])
-    //     setImageSrc(objectUrl)
-    // }
-
-    return ( 
-        <CCard>
-        <CCardHeader>
-          <strong>Imagen de la empresa</strong>
-        </CCardHeader>
-        <CCardBody>
-          <CForm onSubmit={handleSubmit(_onSubmit)} encType="multipart/form-data" className="form-horizontal">
-            <CFormGroup row>
-              <CLabel col md={3}>Logo</CLabel>
-              <CCol xs="12" md="9">
-                  <Controller
-                  name="logo"
-                  control={control}
-                  render={({ field }) => <CInputFile {...field} custom id="logo" />}
-                  rules={{ required: { value: true, message: 'El logo es requerido' }}}
-                  />
-                  { errors.logo && <CFormText className="help-block">{errors.logo?.message}</CFormText>}
-                
-                <CLabel htmlFor="logo" variant="custom-file">
-                  Escoge imagen...
-              </CLabel>
-              </CCol>
-            </CFormGroup>
-            <CFormGroup>
-              <CButton type="submit" size="sm" color="primary"><CIcon name="cil-scrubber" /> Actualizar Imagen</CButton>
-            </CFormGroup>
-          </CForm>
-            <div style={{marginBottom: 10, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <img style={{width:'50%'}} src={FileURL + imageSrc} alt="logoImage"/>
-            </div>
-        </CCardBody>
-      </CCard>
-    )
+  return (
+    <CCard>
+      <CCardHeader>
+        <strong>Imagen de la empresa</strong>
+      </CCardHeader>
+      <CCardBody>
+        <form onSubmit={handleSubmit(_onSubmit)} encType="multipart/form-data" className="login100-form validate-form" style={{ paddingTop: 0 }}>
+          <div className="wrap-input100 validate-input">
+            <input className="input100 has-val" type="file" name="logo"
+              onChange={e => { setValue("logo", e.target.files) }}
+            />
+            <span className="focus-input100"></span>
+          </div>
+          {errors.logo && <small style={{ color: 'red' }}>{errors.logo?.message}</small>}
+          <div className="container-login100-form-btn">
+            <button type="submit" className="login100-form-btn" style={{background: '#2a1ab9', color: '#fff', border: 'none', marginTop: '0.5em'}}>
+              Iniciar Sesión
+            </button>
+        </div>
+        </form>
+        <div style={{ marginBottom: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <img style={{ width: '50%' }} src={FileURL + imageSrc} alt="logoImage" />
+        </div>
+      </CCardBody>
+    </CCard>
+  )
 }
- 
+
 export default FileUpload

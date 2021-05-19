@@ -1,12 +1,14 @@
 import Cookies from 'cookie-universal'
 
+const MIN = 60
+
 const cookies = Cookies()
 // Una hora, segundo parámetro
 class Session{
     crearSession(data){
         cookies.set("_s", data, {
             path: "/",
-            expires: new Date(new Date().getTime() + 60 * 60 * 1000)  
+            expires: new Date(new Date().getTime() + 60 * MIN * 1000)  
         })
     }
 
@@ -25,7 +27,7 @@ class Session{
         }
         cookies.set("_s", sesion, {
             path: "/",
-            expires: new Date(new Date().getTime() + 60 * 60 * 1000) 
+            expires: new Date(new Date().getTime() + 60 * MIN * 1000) 
         })
     
         return sesion
