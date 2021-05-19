@@ -2,10 +2,18 @@ import Session from "./Session";
 // const URL = "https://servicios-api.herokuapp.com/";
 const URL = "https://servicios-api.herokuapp.com/";
 const URLFile = "https://servicios-file.herokuapp.com/upload";
-// const URL_ROOT = "https://servicios-app.herokuapp.com/";
+const URL_ROOT = "https://servicios-app.herokuapp.com/#/login";
 // Local
+
 // const URLFile = "http://localhost:3002/upload/";
-const URL_ROOT = "https://servicios-app.herokuapp.com/#/Login";
+// const URL_ROOT = "https://servicios-app.herokuapp.com/#/Login";
+
+// const URL = "http://localhost:3001/";
+// const URLFile = "http://localhost:3002/upload/";
+// const URL_ROOT = "http://localhost:3000/#/login";
+// const URL = "https://servicios-api.herokuapp.com/";
+// const URLFile = "http://localhost:3002/upload/";
+// const URLFile = "https://servicios-file.herokuapp.com/upload";
 
 class API {
   async getLogin(url, body) {
