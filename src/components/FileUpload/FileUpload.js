@@ -63,7 +63,7 @@ const FileUpload = ({ actualLogo, cb }) => {
                 marginTop: "0.5em",
               }}
             >
-              Iniciar Sesión
+              Cambiar logo
             </button>
           </div>
         </form>
