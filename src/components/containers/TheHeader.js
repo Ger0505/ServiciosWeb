@@ -12,7 +12,7 @@ import {
   // CLink
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
-import IconLogo from "../../assets/favicon.svg";
+// import IconLogo from "../../assets/favicon.svg";
 // routes config
 import routes from "../../routes";
 

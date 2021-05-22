@@ -18,6 +18,7 @@ class Session{
 
     removeSession(){
         cookies.remove("_s")
+        cookies.remove("_t")
     }
 
     renovarSession(){
@@ -31,6 +32,17 @@ class Session{
         })
     
         return sesion
+    }
+
+    crearToken(data){
+        cookies.set("_t", data, {
+            path: "/",
+            expires: new Date(new Date().getTime() + 60 * MIN * 1000)  
+        })
+    }
+
+    getToken(){
+        return cookies.get("_t") === undefined ? false:cookies.get("_t")
     }
 }
 

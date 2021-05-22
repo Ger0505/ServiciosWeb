@@ -12,6 +12,7 @@ const loading = (
 const TheLayout = React.lazy(() => import('./components/containers/TheLayout'));
 const Login = React.lazy(() => import('./pages/Login'));
 const Registro = React.lazy(() => import('./pages/Registro'));
+const Page404 = React.lazy(() => import('./pages/Page404'));
 
 class App extends Component {
 
@@ -23,6 +24,7 @@ class App extends Component {
               <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
               <Route exact path="/register" name="Registro" render={props => <Registro {...props}/>} />
               <Route path="/" name="Home" render={props => <TheLayout {...props}/>} />
+              <Route path="*" render={props => <Page404 {...props}/>} />
             </Switch>
           </React.Suspense>
       </HashRouter>

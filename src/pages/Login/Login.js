@@ -11,10 +11,11 @@ const Login = () => {
 
     const _onSubmit = async e =>{
         e.preventDefault()
-        let res = await API.getBody("emp/login","POST", {correo: correo, password: password})
+        let res = await API.getLogin("log/emp", {correo: correo, password: password})
         if(res.code === 401) setError(true)
         else {
             Session.crearSession(res.empresa)
+            Session.crearToken(res.token)
             history.push("/dash")
         }
     }
