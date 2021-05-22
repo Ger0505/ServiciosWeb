@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CFormGroup, CForm, CInput, CLabel, CRow,
 CTextarea, CButton, CCardFooter, CFormText} from "@coreui/react";
 import CIcon from '@coreui/icons-react';
@@ -16,27 +16,6 @@ const Negocio = () => {
   const { control: control2, handleSubmit: handleSubmit2, formState: { errors: errors2 }, reset:reset2 } = 
   useForm({ mode: 'onBlur' })
   const history = useHistory()
-
-  useEffect(() => {
-
-    const getEmpresa = async () => {
-      let s = Session.getSession()
-      if (!s) history.push("/login")
-      let res = await API.getData("emp/" + s._id, "GET")
-      res.telefono = res.telefono + ""
-      setEmp({
-          _id: s._id,
-          nombre: res.nombre,
-          descripcion: res.descripcion,
-          correo: res.correo,
-          direccion: res.direccion,
-          telefono: res.telefono
-      })
-      reset(res)
-      setLogoSrc(res.logo)
-    }
-    getEmpresa()
-  }, [history, reset])
 
   const _actualizar = async data => {
     data.telefono = parseInt(data.telefono)

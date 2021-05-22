@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { CBadge, CButton, CCollapse, CDataTable } from "@coreui/react"
 import { API, Session } from "../../helpers"
 import Detalle from "../Detalle"
@@ -7,17 +7,6 @@ const Pedidos = () => {
   const [details, setDetails] = useState([])
   const [arrayJSON, setArrayJSON] = useState([])
   const [arrayRep, setArrayRep] = useState([])
-
-  useEffect(() => {
-    const getData = async () => {
-      let s = Session.getSession()
-      const pedidos = await API.getData( "ped/emp/" + s._id, "GET" )
-      setArrayJSON(pedidos)
-      const reps = await API.getData( "rep/" + s._id, "GET")
-      setArrayRep(reps)
-    }
-    getData()
-  }, [])
 
   const toggleDetails = (index) => {
     const position = details.indexOf(index)

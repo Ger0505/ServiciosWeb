@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useHistory, Link } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import { API, Session } from "../../helpers"
 import './Login.scss'
 
@@ -54,23 +54,10 @@ const Login = () => {
                                 <span className="focus-input100"></span>
                                 <span className="label-input100">Contraseña</span>
                             </div>
-                            {/* <div className=" checkbox flex-sb-m w-full p-t-3 p-b-32">
-                                <div className="contact100-form-checkbox">
-                                    <input className="input-checkbox100" id="ckb1" type="checkbox" name="remember-me" />
-                                    <label className="label-checkbox100" for="ckb1">
-                                        Recuerdame
-							        </label>
-                                </div>
-                            </div> */}
                             <div className="container-login100-form-btn">
                                 <button type="submit" className="login100-form-btn">
                                     Iniciar Sesión
 						        </button>
-                            </div>
-                            <div className="text-center p-t-50 p-b-20">
-                                <span className="txt2">
-                                    o <Link to="/register">Registrarse</Link>
-						        </span>
                             </div>
                         </form>
                         <div className="login100-more"></div>
