@@ -16,7 +16,7 @@ const URL_ROOT = "https://servicios-app.herokuapp.com/#/login";
 // const URLFile = "https://servicios-file.herokuapp.com/upload";
 
 class API {
-  async getLog(url, body) {
+  async getLogin(url, body) {
     let jsonObj = JSON.stringify(body);
     const query = await fetch(URL + url, {
       method: "POST",
