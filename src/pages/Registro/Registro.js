@@ -65,7 +65,7 @@ const Registro = () => {
       telefono: parseInt(data.telefono),
       tipo: parseInt(data.tipo),
     };
-    let res = await API.getBody("log/emp/insert", "POST", params);
+    let res = await API.getLog("log/emp/insert", params);
     if (res.hasOwnProperty("status")) {
       seterrorMsg(res.msg);
     } else {
