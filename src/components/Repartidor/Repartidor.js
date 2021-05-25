@@ -47,6 +47,11 @@ const Repartidor = () => {
 
     return (
       <CContainer>
+        <CRow>
+      <CCol>
+      <h3>Lista de Repartidores</h3>
+      </CCol>
+    </CRow>
       <CRow>
         <CCol xs="12">
           <CDataTable

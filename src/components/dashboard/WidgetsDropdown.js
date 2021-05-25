@@ -29,6 +29,12 @@ const WidgetsDropdown = () => {
 
   // render
   return (
+    <>
+    <CRow>
+      <CCol>
+      <h3>Estadísticas diaria</h3>
+      </CCol>
+    </CRow>
     <CRow>
       <CCol sm="6" lg="3">
         <CWidgetDropdown
@@ -120,6 +126,7 @@ const WidgetsDropdown = () => {
         />
       </CCol>
     </CRow>
+    </>
   )
 }
 

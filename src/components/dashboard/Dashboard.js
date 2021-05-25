@@ -48,6 +48,11 @@ const Dashboard = () => {
     <WidgetsDropdown/>
     <CRow>
       <CCol>
+      <h3>Estadísticas generales</h3>
+      </CCol>
+    </CRow>
+    <CRow>
+      <CCol>
       <CCard>
         <CCardHeader>
           <strong>PEDIDOS POR REPARTIDOR</strong>
