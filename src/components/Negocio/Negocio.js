@@ -43,6 +43,7 @@ const Negocio = () => {
     let res = await API.getBody("emp/update", "PUT", data)
     if(res.hasOwnProperty("status")) console.log(res);
     else alert("Información actualizada")
+    _actualizarSession()
   }
 
   const _actualizarLogo = async name =>{
@@ -51,6 +52,7 @@ const Negocio = () => {
       alert("Imagen de logo cambiada, actualice página para visualizar cambios")
     }else{
       alert("Error al actualizar")
+      _actualizarSession()
     }
   }
 
@@ -79,6 +81,22 @@ const Negocio = () => {
         history.push("/login")
       }
     }
+  }
+
+  const _actualizarSession = async () =>{
+    let s = Session.getSession()
+    let res = await API.getData("emp/" + s._id)
+    res.telefono = res.telefono + ""
+    setEmp({
+        _id: s._id,
+        nombre: res.nombre,
+        descripcion: res.descripcion,
+        correo: res.correo,
+        direccion: res.direccion,
+        telefono: res.telefono
+    })
+    reset(res)
+    setLogoSrc(res.logo)
   }
 
 
