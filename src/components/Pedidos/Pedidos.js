@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { CBadge, CButton, CCollapse, CDataTable } from "@coreui/react"
+import { CBadge, CButton, CCollapse, CDataTable, CCol, CRow } from "@coreui/react"
 import { API, Session } from "../../helpers"
 import Detalle from "../Detalle"
 
@@ -83,6 +83,12 @@ const Pedidos = () => {
   }
 
   return (
+    <>
+    <CRow>
+      <CCol>
+      <h3>Lista de Pedidos</h3>
+      </CCol>
+    </CRow>
     <CDataTable
       items={arrayJSON}
       fields={fields}
@@ -159,6 +165,7 @@ const Pedidos = () => {
         },
       }}
     />
+    </>
   )
 }
 
