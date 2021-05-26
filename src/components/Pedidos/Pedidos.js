@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { CBadge, CButton, CCollapse, CDataTable, CCol, CRow } from "@coreui/react"
+import { CButton, CCollapse, CDataTable, CCol, CRow } from "@coreui/react"
 import { API, Session } from "../../helpers"
 import Detalle from "../Detalle"
 
@@ -58,29 +58,15 @@ const Pedidos = () => {
     { key: "fecha", label: "Fecha", _style: { width: "10%" } },
     { key: "hora", label: "Hora", _style: { width: "10%" } },
     { key: "tipo", _style: { width: "10%" } },
+    { key: "repartidor", label: "", _style: { width: "3%" },sorter: false, filter: false, },
     {
       key: "show_details",
       label: "",
-      _style: { width: "1%" },
+      _style: { width: "10%" },
       sorter: false,
       filter: false,
     },
   ]
-
-  const getBadge = (status) => {
-    switch (status) {
-      case "Active":
-        return "success"
-      case "Inactive":
-        return "secondary"
-      case "Pending":
-        return "warning"
-      case "Banned":
-        return "danger"
-      default:
-        return "primary"
-    }
-  }
 
   return (
     <>
@@ -104,9 +90,11 @@ const Pedidos = () => {
         usuario: (item) => (
           <td>{`${item.usuario.nombre} ${item.usuario.apellidos}`}</td>
         ),
-        status: (item) => (
+        repartidor: (item) => (
           <td>
-            <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
+            {
+              item.repartidor ? <i class="fas fa-star" style={{color: ' #fcc300 '}}></i>: null
+            }
           </td>
         ),
         show_details: (item, index) => {
@@ -135,31 +123,6 @@ const Pedidos = () => {
                 onChange={(idPed, idRep) => _changeRepartidor(idPed, idRep)}
                 onSearch={(id) => _searchRepartidor(id)}
                 reset = {() => _reset()}/>
-              {/* <CCardBody>
-                <h4>ID. {item._id}</h4>
-                <p className=""><strong>Usuario:</strong> {item.usuario.nombre + " " + item.usuario.apellidos}</p>
-                <p className=""><strong>Cantidad:</strong> {item.cantidad}</p>
-                <p className=""><strong>Precio: </strong>{item.precio}</p>
-                <p className=""><strong>Descripción:</strong> {item.descripcion}</p>
-                <p className=""> <strong>Dirección:</strong> {item.usuario.direccion}</p>
-                <p className=""> <strong>Repartidor:</strong> {_searchRepartidor(item.repartidor?._id)} </p>
-                <CDropdown>
-                  <CDropdownToggle color="primary">Cambiar Repartidor</CDropdownToggle>
-                  <CDropdownMenu>
-                    {arrayRep.map((rep) => {
-                      return (
-                        <CDropdownItem onClick={() => _changeRepartidor(item._id,rep._id)} component="button">{`${rep.usuario.nombre} ${rep.usuario.apellidos}`}</CDropdownItem>
-                      )
-                    })}
-                  </CDropdownMenu>
-                </CDropdown>
-                <CButton size="sm" color="info">
-                  User Settings
-                </CButton>
-                <CButton size="sm" color="danger" className="ml-1">
-                  Delete
-                </CButton>
-              </CCardBody> */}
             </CCollapse>
           )
         },

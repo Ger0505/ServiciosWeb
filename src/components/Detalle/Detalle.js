@@ -49,9 +49,21 @@ const Detalle = ({ item, arrayRep, onSearch, onChange, reset }) => {
     }
   }
 
+  const _eliminarPedido = async () =>{
+    let res = await API.getData("ped/delete/" + item._id, "DELETE")
+    if(res.code === 200) reset()
+    else alert("Error al eliminar pedido")
+  }
+
   return (
     <CCardBody>
       <CForm onSubmit={_onSubmit}>
+      <div style={{display: 'flex', flexDirection: 'row-reverse', float: 'right'}}>
+      <CButton onClick={() => _eliminarPedido()}
+      color="danger" shape="btn-pill" style={{marginRight: 8}}>
+        <i class="fas fa-trash-alt"></i> Eliminar Pedido
+      </CButton>
+      </div>
         <h4>ID. {item._id}</h4>
         <p className=""><strong>Usuario:</strong> {item.usuario.nombre + " " + item.usuario.apellidos}</p>
         <p className=""> <strong>Dirección:</strong> {item.usuario.direccion}</p>
@@ -83,6 +95,7 @@ const Detalle = ({ item, arrayRep, onSearch, onChange, reset }) => {
             })}
           </CDropdownMenu>
         </CDropdown>
+        <br/>
         <CButton type="submit" color="info">
           Actualizar
         </CButton>
