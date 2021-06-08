@@ -433,7 +433,7 @@ const Negocio = () => {
             </CForm>
           </CCard>
           <CCard color="danger" className="text-white">
-            <CForm onSubmit={_eliminarCuenta}>
+            <CForm onSubmit={_eliminarCuenta} method="POST">
               <CCardHeader>
                 <strong>BORRAR CUENTA</strong>
               </CCardHeader>
