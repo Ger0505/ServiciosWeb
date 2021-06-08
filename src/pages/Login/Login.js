@@ -15,6 +15,7 @@ const Login = () => {
   } = useForm();
 
   useEffect(() => {
+    Session.removeSession()
     register("correo", {
       required: { value: true, message: "El correo es requerido" },
       pattern: {
