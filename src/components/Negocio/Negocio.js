@@ -110,6 +110,7 @@ const Negocio = () => {
   };
 
   const _eliminarCuenta = async (e) => {
+    e.preventDefault();
     let s = Session.getSession();
     if (!s) return;
     if (s.correo === correoDelete) {

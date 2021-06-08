@@ -5,7 +5,7 @@ const URL_ROOT = "https://servicios-app.herokuapp.com/#/login";
 
 // const URL = "https://servicios-api.herokuapp.com/";
 // const URLFile = "http://localhost:3002/upload/";
-//const URL_ROOT = "http://localhost:3000/#/login";
+// const URL_ROOT = "http://localhost:3000/#/login";
 
 class API {
   async getLogin(url, body) {
