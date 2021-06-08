@@ -5,6 +5,7 @@ import { API, FileURL } from "../../helpers";
 import { useForm, Controller } from "react-hook-form";
 
 const FileUpload = ({ actualLogo, cb }) => {
+  const [errorMsg, setErrorMsg] = useState("");
   const [imageSrc, setImageSrc] = useState("");
   const {
     register,
@@ -22,6 +23,13 @@ const FileUpload = ({ actualLogo, cb }) => {
 
   const _onSubmit = async (data) => {
     console.log(data);
+    if(data.logo[0].type !== "image/png" && 
+       data.logo[0].type !== "image/jpeg" && 
+       data.logo[0].type !== "image/svg+xml" && 
+       data.logo[0].type !== "image/jpg"){
+        setErrorMsg("Formato de logo inválido, acepta png,jpg,jpeg,svg");
+        return;
+    }
     await API.getFile(data.logo[0]);
     cb(data.logo[0].name);
   };
@@ -42,8 +50,10 @@ const FileUpload = ({ actualLogo, cb }) => {
             <input
               className="input100 has-val"
               type="file"
+              accept="image/*"
               name="logo"
               onChange={(e) => {
+                setErrorMsg("")
                 setValue("logo", e.target.files);
               }}
             />
@@ -51,6 +61,9 @@ const FileUpload = ({ actualLogo, cb }) => {
           </div>
           {errors.logo && (
             <small style={{ color: "red" }}>{errors.logo?.message}</small>
+          )}
+          {errorMsg !== "" && (
+            <small style={{ color: "red" }}>{errorMsg}</small>
           )}
           <div className="container-login100-form-btn">
             <button

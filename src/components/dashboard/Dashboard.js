@@ -36,7 +36,7 @@ const Dashboard = () => {
   }
 
   const _getNombreRep = id =>{
-    let name = 'null'
+    let name = 'Sin asignar'
     reps.forEach(item =>{
       if(id === item._id){ name = item.usuario.nombre + " " + item.usuario.apellidos }
     })

@@ -8,6 +8,7 @@ import { API, Session } from "../../helpers";
 import FileUpload from '../FileUpload'
 
 const Negocio = () => {
+  const [errorMsg, setErrorMsg] = useState("");
   const [emp, setEmp] = useState({_id:'', nombre:'', descripcion:'', correo:'', direccion:'',telefono:''});
   const [pwdMsg, setPwdMsg] = useState('');
   const [correoDelete, setCorreoDelete] = useState('');
@@ -41,8 +42,12 @@ const Negocio = () => {
   const _actualizar = async data => {
     data.telefono = parseInt(data.telefono)
     let res = await API.getBody("emp/update", "PUT", data)
-    if(res.hasOwnProperty("status")) console.log(res);
+    if(res.hasOwnProperty("status") && res.code === 200){
+      setErrorMsg(res.msg);
+      return;
+    }
     else alert("Información actualizada")
+    setErrorMsg("");
     _actualizarSession()
   }
 
@@ -61,8 +66,10 @@ const Negocio = () => {
     else{
       data._id = emp._id
       let res = await API.getBody("emp/resetPwd", "PUT", data)
-      if (res.hasOwnProperty("status")) setPwdMsg(res.msg)
-      else {
+      if (res.hasOwnProperty("status")){
+        setPwdMsg(res.msg)
+        reset2({actual: '', nuevo:'', re:''})
+       } else {
         setPwdMsg('')
         reset2({actual: '', nuevo:'', re:''})
         alert("Contraseña actualizada")
@@ -80,6 +87,9 @@ const Negocio = () => {
         Session.removeSession()
         history.push("/login")
       }
+    }else{
+      alert("Correo Electrónico inválido")
+      setCorreoDelete("")
     }
   }
 
@@ -190,6 +200,7 @@ const Negocio = () => {
                 </CFormGroup>
               </CCardBody>
               <CCardFooter>
+                { errorMsg!== "" && <CFormText className="help-block">{errorMsg}</CFormText>}
                 <CButton type="submit" size="sm" color="primary"><CIcon name="cil-scrubber" /> Actualizar</CButton>
               </CCardFooter>
             </CForm>

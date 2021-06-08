@@ -54,7 +54,13 @@ const Registro = () => {
   }, [register, uploadedImage]);
 
   const _onSubmit = async (data) => {
-    console.log(data);
+    if(data.logo[0].type !== "image/png" && 
+       data.logo[0].type !== "image/jpeg" && 
+       data.logo[0].type !== "image/svg+xml" && 
+       data.logo[0].type !== "image/jpg"){
+        seterrorMsg("Formato de logo inválido, acepta png,jpg,jpeg,svg");
+        return;
+    }
     const params = {
       correo: data.correo,
       descripcion: data.descripcion,
@@ -259,7 +265,9 @@ const Registro = () => {
                   className="input100 has-val"
                   type="file"
                   name="logo"
+                  accept="image/*"
                   onChange={(e) => {
+                    seterrorMsg("");
                     _onChangeImagePreview(e);
                     setValue("logo", e.target.files);
                   }}
